@@ -48,7 +48,7 @@ function init(d) {
       } else {
         // Looks like the file was deleted,
         // find it's thing object mark it deleted and unqueue it.
-        logger.info('File removed: ' + filename);
+        logger.log('verbose', 'File removed: ' + filename);
         ['create', 'upload', 'finalize'].forEach(function (queueName) {
           Qs[queueName] = Qs[queueName].filter(function (thing) {
             if (thing.filename === filename) {
