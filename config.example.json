@@ -8,13 +8,13 @@
 		"thing": {
 			"licence": "cc",
 			"category": "People",
-			"description": "",
+			"description": "just testing out my app",
 			"instructions": "",
 			"is_wip": false,
 			"tags": ["science-festival", "making-it"]
 		},
 		"publish": true,
-		"collection": ""
+		"collectionId": "1016401"
 	},
 	"connectionPool": 5,
 	"notificationTime": 1000
