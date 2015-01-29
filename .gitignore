@@ -1,0 +1,7 @@
+.DS_Store
+config.json
+npm-debug.log
+dropthing.log
+dropThingsHere/*
+complete/*
+node_modules

@@ -1,0 +1,21 @@
+{
+	"dropDir": "dropThingsHere",
+	"completeDir": "complete",
+	"logFile": "dropThing.log",
+	"clientId": "",
+	"clientSecret": "",
+	"defaults": {
+		"thing": {
+			"licence": "cc",
+			"category": "People",
+			"description": "",
+			"instructions": "",
+			"is_wip": false,
+			"tags": ["science-festival", "making-it"]
+		},
+		"publish": true,
+		"collection": ""
+	},
+	"connectionPool": 5,
+	"notificationTime": 1000
+}
