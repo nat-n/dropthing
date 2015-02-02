@@ -10,10 +10,11 @@
   "author": "Nat Noordanus <n@natn.me>",
   "license": "CC",
   "dependencies": {
+    "express": "^4.11.1",
     "form-data": "^0.2.0",
     "lodash": "^3.0.0",
     "node-notifier": "^4.1.0",
-    "express": "^4.11.1",
-    "open": "0.0.5"
+    "open": "0.0.5",
+    "winston": "^0.8.3"
   }
 }
