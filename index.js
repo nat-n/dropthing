@@ -20,15 +20,63 @@ function init() {
     create: [],
     upload: [],
     publish: []
-  };
+  }, loadedQs;
 
-  // TODO: load Qs from file if possible.
+  if (config.queuesFile) {
+    // Try to load Qs from queues file
+    // In most cases this should allow graceful recovery of partially processed
+    // things, with the exception of things with status suggesting an incomplete
+    // request, which must be treated as failed.
+    try {
+      loadedQs = JSON.parse(fs.readFileSync(config.queuesFile, 'utf8'));
+      if (loadedQs.hasOwnProperty('create') &&
+          loadedQs.hasOwnProperty('upload') &&
+          loadedQs.hasOwnProperty('publish')) {
+        Qs.create = loadedQs.create;
+        Qs.upload = loadedQs.upload;
+        Qs.publish = loadedQs.publish;
+      } else {
+        logger.warn("Couldn't load queues, file contents invalid.");
+      }
+    } catch(e) {
+      logger.warn("Couldn't load queues, file unreadable.");
+    }
+  }
+
+  // Check dropDir for changes since the state reports by the queues file.
+  // We strongly assume that the loadedQs is the most up to date view
+  // possible, so we only need to deal with deletion of files that are still
+  // in a queue (which we treat as having just been deleted) and addition of
+  // new files, which we treat as having just arrived there.
+  var existingFiles = fs.readdirSync(config.dropDir);
+  var knownFiles = [];
+  ['create', 'upload', 'publish'].forEach(function (queueName) {
+    Qs[queueName].forEach(function (thing) { knownFiles.push(thing.filename) });
+  });
+
+  knownFiles.forEach(function (filename) {
+    if (existingFiles.indexOf(filename) === -1) {
+      if (filename[0] === '.' || !filename.substr(-4).match(/\.(?:stl|STL)/)) {
+        return;
+      }
+      // known file is missing
+      processManager.file.remove(filename, Qs);
+    }
+  });
+  existingFiles.forEach(function (filename) {
+    if (knownFiles.indexOf(filename) === -1) {
+      if (filename[0] === '.' || !filename.substr(-4).match(/\.(?:stl|STL)/)) {
+        return;
+      }
+      // existing file is new
+      processManager.file.add(filename, Qs);
+    }
+  });
 
   processManager.init(Qs);
-
   thingiverse.ConnectionManager.init()
 
-  // Start watching the target directory
+  // Start watching the target directory for changes in STL files
   fs.watch(config.dropDir, function (change, filename) {
     if (filename) {
       // Ignore files that dont end with .stl, or that start with a period.
@@ -38,30 +86,11 @@ function init() {
 
       var filepath = path.resolve(config.dropDir, filename);
       if (fs.existsSync(filepath)) {
-        // Looks like a new file has arrived
-        logger.info('File added:   ' + filename);
-        Qs.create.push({
-          filename: filename,
-          filepath: filepath,
-          status: 'new',
-          failures: 0,
-        });
-
+        // looks like a file was added or changed
+        processManager.file.add(filename, Qs);
       } else {
-        // Looks like the file was deleted,
-        // find it's thing object mark it deleted and unqueue it.
-        logger.log('verbose', 'File removed: ' + filename);
-        ['create', 'upload', 'publish'].forEach(function (queueName) {
-          Qs[queueName] = Qs[queueName].filter(function (thing) {
-            if (thing.filename === filename) {
-              logger.info('Removed : "' + filename +
-                          '" with status ' + thing.status);
-              thing.status = 'deleted';
-              return false;
-            }
-            return true;
-          });
-        });
+        // looks like a file was deleted
+        processManager.file.remove(filename, Qs);
       }
 
     } else {
