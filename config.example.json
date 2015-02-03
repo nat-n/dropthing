@@ -1,9 +1,12 @@
 {
+	"clientId": "",
+	"clientSecret": "",
+	"accessToken": "",
 	"dropDir": "dropThingsHere",
 	"completeDir": "complete",
 	"logFile": "dropThing.log",
-	"clientId": "",
-	"clientSecret": "",
+	"queuesFile": "queues.json",
+	"consoleLogLevel": "verbose",
 	"defaults": {
 		"thing": {
 			"licence": "cc",
@@ -14,8 +17,9 @@
 			"tags": ["science-festival", "making-it"]
 		},
 		"publish": true,
-		"collectionId": ""
+		"collectionId": "1016401"
 	},
 	"connectionPool": 5,
-	"notificationTime": 1000
+	"httpTimeout": 12000,
+	"notificationTime": 3000
 }
