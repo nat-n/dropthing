@@ -2,26 +2,28 @@
 
 'use strict';
 
-// var express = require('express');
-// var nodeNotifier = require('node-notifier');
 var path = require('path');
 var fs = require('fs');
-// var open = require("open");
 var processManager = require('./lib/processManager');
 var config = require('./lib/config');
 var logger = require('./lib/logger');
 var thingiverse = require('./lib/thingiverse');
 var notifier = require('./lib/notifier');
-
+var auth = require('./lib/auth');
 
 function init() {
+  logger.info("Initializing DropThing Server");
+
+  // Give the express server a wee head start
+  auth.startServer();
+
   // Initialize queues
   var Qs = {
     create: [],
     upload: [],
     publish: []
   }, loadedQs;
-
+  // Reload saved queues
   if (config.queuesFile) {
     // Try to load Qs from queues file
     // In most cases this should allow graceful recovery of partially processed
@@ -53,7 +55,6 @@ function init() {
   ['create', 'upload', 'publish'].forEach(function (queueName) {
     Qs[queueName].forEach(function (thing) { knownFiles.push(thing.filename) });
   });
-
   knownFiles.forEach(function (filename) {
     if (existingFiles.indexOf(filename) === -1) {
       if (filename[0] === '.' || !filename.substr(-4).match(/\.(?:stl|STL)/)) {
@@ -73,6 +74,7 @@ function init() {
     }
   });
 
+  // Initialise process and connection managers
   processManager.init(Qs);
   thingiverse.ConnectionManager.init()
 
@@ -106,11 +108,5 @@ function exitWithError(err) {
   process.exit(1);
 }
 
-function server() {
-  // TODO: launch http server, serving page with client side OAuth2 workflow
-}
-
 // Bootstrap app
-logger.info("Initializing DropThing Server");
-// server();
-init()
+init();

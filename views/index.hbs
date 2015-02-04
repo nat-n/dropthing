@@ -1,0 +1,35 @@
+<html>
+  <head>
+    <title>Authorise DropThing</title>
+  </head>
+  <body>
+
+    {{#if initAuth}}
+    <script >
+      location.href = "https://www.thingiverse.com/login/oauth/authorize?client_id={{clientId}}"
+    </script>
+    {{/if}}
+
+    <div class="content">
+      <div class="user"
+           style="border: 1px solid #CCC;
+                  border-radius: 10px;
+                  margin: 25px;
+                  width: 500px;
+                  padding: 15px;
+                  overflow: hidden;">
+        <h2>
+          Successfully authenticated with thingiverse
+        </h2>
+
+        <img src="{{user.thumbnail}}" style="float:left;">
+
+        <span style="float:left; padding: 15px">
+          {{user.full_name}} <a href="{{user.public_url}}">{{user.name}}</a>
+        </span>
+
+      </div>
+    </div>
+
+  </body>
+</html>

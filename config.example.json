@@ -1,25 +1,28 @@
 {
-	"clientId": "",
-	"clientSecret": "",
-	"accessToken": "",
-	"dropDir": "dropThingsHere",
-	"completeDir": "complete",
-	"logFile": "dropThing.log",
-	"queuesFile": "queues.json",
-	"consoleLogLevel": "verbose",
-	"defaults": {
-		"thing": {
-			"licence": "cc",
-			"category": "People",
-			"description": "just testing out my app",
-			"instructions": "",
-			"is_wip": false,
-			"tags": ["science-festival", "making-it"]
-		},
-		"publish": true,
-		"collectionId": "1016401"
-	},
-	"connectionPool": 5,
-	"httpTimeout": 12000,
-	"notificationTime": 3000
+    "clientId": "",
+    "clientSecret": "",
+    "dropDir": "dropThingsHere",
+    "completeDir": "complete",
+    "logFile": "dropThing.log",
+    "queuesFile": "queues.json",
+    "consoleLogLevel": "verbose",
+    "defaults": {
+        "thing": {
+            "licence": "cc",
+            "category": "People",
+            "description": "just testing out my app",
+            "instructions": "",
+            "is_wip": false,
+            "tags": [
+                "science-festival",
+                "making-it"
+            ]
+        },
+        "publish": true,
+        "collectionId": "1016401"
+    },
+    "connectionPool": 5,
+    "httpTimeout": 12000,
+    "notificationTime": 3000,
+    "authServerPort": 8888
 }
