@@ -5,10 +5,20 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"tests LOL!\" && exit 1"
   },
   "author": "Nat Noordanus <n@natn.me>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nat-n/dropthing"
+  },
+  "bugs": {
+    "url": "https://github.com/nat-n/dropthing/issues"
+  },
   "license": "CC",
+  "keywords": [
+    "thingiverse"
+  ],
   "dependencies": {
     "consolidate": "^0.10.0",
     "express": "^4.11.1",
