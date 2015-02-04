@@ -17,12 +17,13 @@ function init() {
   // Give the express server a wee head start
   auth.startServer();
 
-  // Initialize queues
+  // Initialize empty queues
   var Qs = {
     create: [],
     upload: [],
     publish: []
   }, loadedQs;
+
   // Reload saved queues
   if (config.queuesFile) {
     // Try to load Qs from queues file
@@ -44,7 +45,6 @@ function init() {
       logger.warn("Couldn't load queues, file unreadable.");
     }
   }
-
   // Check dropDir for changes since the state reports by the queues file.
   // We strongly assume that the loadedQs is the most up to date view
   // possible, so we only need to deal with deletion of files that are still
