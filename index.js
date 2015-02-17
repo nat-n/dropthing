@@ -96,7 +96,7 @@ function init() {
       }
 
     } else {
-      logger.error('Change "' + change + '"detected without filename.');
+      logger.log('verbose', 'Change "' + change + '"detected without filename.');
     }
   });
 

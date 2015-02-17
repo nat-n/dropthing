@@ -43,11 +43,3 @@ thingiverse.thingsByUser(function (allThings) {
   console.log(res);
   logger.error("Failed to retrieve the user's things");
 });
-
-var stdin = process.openStdin();
-
-console.log('Press any key to cancel');
-stdin.on('keypress', function (chunk, key) {
-  logger.info('Cancelling deletion process');
-  process.exit(1);
-});
