@@ -1,5 +1,14 @@
 'use strict';
 
+/*
+ * This script accepts a collection name, retrieves all the things from that
+ * Collection and dutifully deletes them! Use with caution.
+ * It's a little unstable, seemingly becuase deletion through the API isn't very
+ * efficient (a security feature), the script will keep trying till the job is
+ * done.
+ */
+
+
 var config = require('../lib/config');
 var auth = require('../lib/auth');
 var thingiverse = require('../lib/thingiverse');
@@ -64,7 +73,7 @@ function deleteCollectionContents(collectionId) {
         }
         if (thing.deleting !== true) {
           thingiverse.deleteThing(thing.id, function () {
-            logger.info("Successfully deleted " + thing.name + "(" + thing.id + ")");
+            logger.info("Successfully deleted " + thing.name + " (" + thing.id + ")");
             thing.deleted = true;
           }, function () {
             logger.error("Failed to delete " + thing.name + "(" + thing.id + ")" +
